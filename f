@@ -1,18 +1,14 @@
-from PIL import Image
-from PIL.ExifTags import TAGS
+import os
 
-def get_imageMetadata(imagePath):
-    image = Image.open(imagePath)
-    exif_data = {}
-    info = image._getexif()
-    if info:
-        for tag, value in info.items():
-            decoded = TAGS.get(tag, tag)
-            exif_data[decoded] = value
-    return exif_data
+def enumerateDirectory(directory_toEnumerate):
+    for entry in os.listdir(directory_toEnumerate):
+        path = os.path.join(directory_toEnumerate, entry)
+        if os.path.isdir(path):
+            print(f"Directory: {path}")
+            # Recursive call to enumerate subdirectories
+            enumerateDirectory(path)
+        else:
+            print(f"File: {path}")
 
-imagePath = 'path/to/image.jpg'
-metadata = get_imageMetadata(imagePath)
-
-for key, value in metadata.items():
-    print(f"{key}: {value}")
+directory_toEnumerate = "/path/to/directory"  # Replace with the actual directory path
+enumerateDirectory(directory_toEnumerate)
