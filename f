@@ -1,15 +1,18 @@
-import os
+from PIL import Image
+from PIL.ExifTags import TAGS
 
-def get_basicMetadata(filePath):
-    metadata = {}
-    metadata['size'] = os.path.getsize(filePath)
-    metadata['creation_time'] = os.path.getctime(filePath)
-    metadata['modification_time'] = os.path.getmtime(filePath)
-    metadata['access_time'] = os.path.getatime(filePath)
-    return metadata
+def get_imageMetadata(imagePath):
+    image = Image.open(imagePath)
+    exif_data = {}
+    info = image._getexif()
+    if info:
+        for tag, value in info.items():
+            decoded = TAGS.get(tag, tag)
+            exif_data[decoded] = value
+    return exif_data
 
-filePath = '/path/to/file'  # Replace this with your actual file path
-metadata = get_basicMetadata(filePath)
+imagePath = 'path/to/image.jpg'
+metadata = get_imageMetadata(imagePath)
 
 for key, value in metadata.items():
     print(f"{key}: {value}")
