@@ -1,14 +1,15 @@
-import os
+# To capture live network packets
+import pyshark
 
-def enumerateDirectory(directory_toEnumerate):
-    for entry in os.listdir(directory_toEnumerate):
-        path = os.path.join(directory_toEnumerate, entry)
-        if os.path.isdir(path):
-            print(f"Directory: {path}")
-            # Recursive call to enumerate subdirectories
-            enumerateDirectory(path)
-        else:
-            print(f"File: {path}")
+# Start live capture on interface eth0
+capture = pyshark.LiveCapture(interface='eth0')
 
-directory_toEnumerate = "/path/to/directory"  # Replace with the actual directory path
-enumerateDirectory(directory_toEnumerate)
+# Capture packets for 50 seconds
+capture.sniff(timeout=50)
+
+# To analyze the packets by printing the details of each packet
+for packet in capture:
+    try:
+        print(f"Packet: {packet}")
+    except AttributeError:
+        pass
