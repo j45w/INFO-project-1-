@@ -1,1 +1,1 @@
-Invoke-Expression -command "C:\ELK\nssm-2.24\win64\nssm install Kibana"
+./elasticsearch-reset-password -i -u kibana_system
