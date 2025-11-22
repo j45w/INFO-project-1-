@@ -1,1 +1,1 @@
-./elasticsearch-reset-password.bat -i -u elastic
+/logstash.bat -f .\config\logstash-sample.conf
